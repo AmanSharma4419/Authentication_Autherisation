@@ -4,14 +4,21 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose = require("mongoose")
+
 //connectiong with database
 mongoose.connect("mongodb://localhost/userData",{useNewUrlParser:true},(err) => {
     err ? console.log(err) : console.log("mongodb connected")
 });
 
 //providing the paths
-var registrationRouter = require('./routes/registration');
-var loginRouter = require('./routes/login');
+
+// written by Neeraj
+//var homeRouer = require("./routes")
+
+
+var registrationRouter = require('./routes/register');
+
+var loginRouter = require("./routes/login");
 //mounting the express
 var app = express();
 
@@ -25,8 +32,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/registration', registrationRouter);
-app.use('/login',loginRouter );
+// 
+//app.use("/",homeRouer);
+
+app.use('/register', registrationRouter);
+app.use('/login',loginRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -44,8 +54,5 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-//listening the server
-app.listen(4000,() => {
-  console.log("server running at port")
-})
+
 module.exports = app;
