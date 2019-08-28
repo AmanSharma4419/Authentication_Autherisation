@@ -15,7 +15,7 @@ router.get("/",(req,res) => {
 router.post("/",(req,res) => {
  userModel.create(req.body,(err,sucessfull) => {
   if(err) console.log(err)
-  res.send(sucessfull)
+  res.redirect("/login")
  })
 })
 

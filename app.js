@@ -11,11 +11,6 @@ mongoose.connect("mongodb://localhost/userData",{useNewUrlParser:true},(err) => 
 });
 
 //providing the paths
-
-// written by Neeraj
-//var homeRouer = require("./routes")
-
-
 var registrationRouter = require('./routes/register');
 
 var loginRouter = require("./routes/login");
@@ -32,9 +27,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// 
-//app.use("/",homeRouer);
-
+// handling the route in server
 app.use('/register', registrationRouter);
 app.use('/login',loginRouter);
 
