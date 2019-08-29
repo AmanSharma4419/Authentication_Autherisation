@@ -4,7 +4,7 @@ var express = require('express');
 //extracting the route
 var router = express.Router();
 //requring the schemamodel
-var userModel = require("../model/model")
+var User = require("../model/model")
 
 //handling route for the rendring the form
 router.get("/",(req,res) => {
@@ -13,8 +13,10 @@ router.get("/",(req,res) => {
 
 //handling the post route from form
 router.post("/",(req,res) => {
- userModel.create(req.body,(err,sucessfull) => {
+  console.log(req.body);
+ User.create(req.body,(err,sucessfull,) => {
   if(err) console.log(err)
+  //res.send(sucessfull)
   res.redirect("/login")
  })
 })

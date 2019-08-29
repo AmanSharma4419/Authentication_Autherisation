@@ -10,10 +10,13 @@ mongoose.connect("mongodb://localhost/userData",{useNewUrlParser:true},(err) => 
     err ? console.log(err) : console.log("mongodb connected")
 });
 
-//providing the paths
+var indedxRouter = require('./routes/index');
+//providing the path for register route
 var registrationRouter = require('./routes/register');
-
+//providinf the path for login route
 var loginRouter = require("./routes/login");
+//user routr importing
+var userRouter = require("./routes/users");
 //mounting the express
 var app = express();
 
@@ -30,6 +33,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 // handling the route in server
 app.use('/register', registrationRouter);
 app.use('/login',loginRouter);
+app.use('/users',userRouter);
+app.use('/', indedxRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -44,7 +49,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.redirect('/');
 });
 
 
