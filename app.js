@@ -6,6 +6,7 @@ var logger = require('morgan');
 var mongoose = require("mongoose");
 //requring the sessions
 var session = require("express-session");
+//requring the mongoose connect-mongo
 var mongoStore = require("connect-mongo")(session);
 //connectiong with database
 mongoose.connect("mongodb://localhost/userData",{useNewUrlParser:true},(err) => {
@@ -21,6 +22,7 @@ var loginRouter = require("./routes/login");
 var userRouter = require("./routes/users");
 //mounting the express
 var app = express();
+//middlewares
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -33,10 +35,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //session midleware
 app.use(session({
-  secret:"xyz",
-  resave:true,
-  saveUninitialized:true,
-  store: new mongoStore({mongooseConnection: mongoose.connection})
+  secret:"xyz",//up level security for after salt in schema
+  resave:true,//use to save info of the same user
+  saveUninitialized:true,//
+  store: new mongoStore({mongooseConnection: mongoose.connection})//used to save sessions in the mongoose database so after stopping the server it does not deleted
 }));
 // handling the route in server
 app.use('/register', registrationRouter);

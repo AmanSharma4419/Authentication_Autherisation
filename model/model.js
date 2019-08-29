@@ -2,9 +2,7 @@
 var mongoose = require("mongoose");
 //extrating the schema
 var schema = mongoose.Schema;
-//making the schema
-
-//importing the bcrypt
+//requring the bcrypt
 var bcrypt = require("bcrypt")
 //making the schema
 var userSchema = new schema ({
@@ -18,14 +16,14 @@ var userSchema = new schema ({
         required: true,
     }
 },{timestamps: true})
-//implementing the presave function
+//implementing the presave function it hides password before entering into database
 userSchema.pre('save', function(next) {
     if(this.password) {
         this.password = bcrypt.hashSync(this.password, 10);
         next();
     }
 });
-//comparing the password
+//comparing the hashing and the plane password
 userSchema.method.confirmPassword = function(password) {
     return bcrypt.compareSync(password, this.password);
 }
