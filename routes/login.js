@@ -13,10 +13,17 @@ var User = require("../model/model")
  })
 
  //handling the post route of login
- router.post("/",(req,res) => {
-     User.create(req.body,(err,loggedIn) =>{
-         if(err) console.log(err)
-         res.send(loggedIn)
+ router.post("/",(req,res,next) => {
+     var pass = req.body.password;
+     User.findOne({email:req.body.email}, (err,user) => {
+        //  check input of user
+        if(err)  return next(err);
+        if(!user) return res.redirect("/login");
+        if(!user.confirmPassword(pass)) return res.redirect("/login");
+
+        // actuall login
+        req.session.userId = user._id;
+        res.redirect("/users");
      })
  })
 // Exporing the module of route

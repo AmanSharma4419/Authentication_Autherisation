@@ -3,8 +3,10 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var mongoose = require("mongoose")
-
+var mongoose = require("mongoose");
+//requring the sessions
+var session = require("express-session");
+var mongoStore = require("connect-mongo")(session);
 //connectiong with database
 mongoose.connect("mongodb://localhost/userData",{useNewUrlParser:true},(err) => {
     err ? console.log(err) : console.log("mongodb connected")
@@ -19,7 +21,6 @@ var loginRouter = require("./routes/login");
 var userRouter = require("./routes/users");
 //mounting the express
 var app = express();
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -30,6 +31,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//session midleware
+app.use(session({
+  secret:"xyz",
+  resave:true,
+  saveUninitialized:true,
+  store: new mongoStore({mongooseConnection: mongoose.connection})
+}));
 // handling the route in server
 app.use('/register', registrationRouter);
 app.use('/login',loginRouter);
