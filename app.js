@@ -13,6 +13,8 @@ mongoose.connect("mongodb://localhost/userData",{useNewUrlParser:true},(err) => 
     err ? console.log(err) : console.log("mongodb connected")
 });
 
+//exporting the middleware
+// app.use(auth.checkLoggedUser);
 var indedxRouter = require('./routes/index');
 //providing the path for register route
 var registrationRouter = require('./routes/register');
@@ -33,7 +35,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-//session midleware
+//session midleware when user login then session create
 app.use(session({
   secret:"xyz",//up level security for after salt in schema
   resave:true,//use to save info of the same user

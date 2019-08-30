@@ -24,7 +24,7 @@ userSchema.pre('save', function(next) {
     }
 });
 //comparing the hashing and the plane password
-userSchema.method.confirmPassword = function(password) {
+userSchema.methods.confirmPassword = function(password) {
     return bcrypt.compareSync(password, this.password);
 }
 //making the model of schema 

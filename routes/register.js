@@ -12,7 +12,8 @@ router.get("/",(req,res) => {
 })
 
 //handling the post route from form
-router.post("/",(req,res) => {
+router.post("/", (req,res) => {
+  console.log(req.body);
  User.create(req.body,(err,sucessfull,) => {
   if(err) console.log(err);
   console.log(sucessfull);

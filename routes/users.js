@@ -13,6 +13,5 @@ router.get("/",(req,res, next) => {
     }) 
 });
 
-// router.get('/login')
 //exporting the route
 module.exports = router;
