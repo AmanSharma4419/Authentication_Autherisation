@@ -11,9 +11,9 @@ var User = require("../model/model")
  router.get("/",(req ,res) => {
      res.render("login");
  })
-
  //handling the post route of login
  router.post("/", (req,res,next) => {
+     console.log(req.session);
      var pass = req.body.password;
      User.findOne({email:req.body.email}, (err,user) => {
          console.log(err, user);
@@ -23,8 +23,9 @@ var User = require("../model/model")
         if(!user.confirmPassword(pass)) return res.redirect("/login");
         // actuall login
        // console.log("session-created")
-        req.session.userId = user._id;
-        res.redirect("/users");
+        res.send(req.body)
+        //req.session.userId = user._id;
+        //res.redirect("/users");
      })
  })
 // Exporing the module of route

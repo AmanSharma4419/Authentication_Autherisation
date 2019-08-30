@@ -4,27 +4,37 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose = require("mongoose");
+var auth = require('./modules/auth');
+
 //requring the sessions
 var session = require("express-session");
+
 //requring the mongoose connect-mongo
 var mongoStore = require("connect-mongo")(session);
+
 //connectiong with database
 mongoose.connect("mongodb://localhost/userData",{useNewUrlParser:true},(err) => {
     err ? console.log(err) : console.log("mongodb connected")
 });
 
 //exporting the middleware
-// app.use(auth.checkLoggedUser);
 var indedxRouter = require('./routes/index');
+
 //providing the path for register route
 var registrationRouter = require('./routes/register');
+
 //providinf the path for login route
 var loginRouter = require("./routes/login");
+
 //user routr importing
 var userRouter = require("./routes/users");
+
+
 //mounting the express
 var app = express();
+
 //middlewares
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -42,6 +52,9 @@ app.use(session({
   saveUninitialized:true,//
   store: new mongoStore({mongooseConnection: mongoose.connection})//used to save sessions in the mongoose database so after stopping the server it does not deleted
 }));
+
+app.use(auth.checkLoggedUsers);
+
 // handling the route in server
 app.use('/register', registrationRouter);
 app.use('/login',loginRouter);
