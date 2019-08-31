@@ -23,9 +23,8 @@ var User = require("../model/model")
         if(!user.confirmPassword(pass)) return res.redirect("/login");
         // actuall login
        // console.log("session-created")
-        res.send(req.body)
-        //req.session.userId = user._id;
-        //res.redirect("/users");
+        req.session.userId = user._id;
+        res.redirect("/users");
      })
  })
 // Exporing the module of route
