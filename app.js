@@ -17,16 +17,15 @@ mongoose.connect("mongodb://localhost/userData",{useNewUrlParser:true},(err) => 
     err ? console.log(err) : console.log("mongodb connected")
 });
 
-//exporting the middleware
 var indedxRouter = require('./routes/index');
 
 //providing the path for register route
 var registrationRouter = require('./routes/register');
 
-//providinf the path for login route
+//providing the path for login route
 var loginRouter = require("./routes/login");
 
-//user routr importing
+//user route importing
 var userRouter = require("./routes/users");
 
 
